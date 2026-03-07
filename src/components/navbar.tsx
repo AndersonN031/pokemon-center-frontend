@@ -1,42 +1,111 @@
 "use client";
 
 import { logout } from "@/hooks/useAuth";
+import {
+  Menu,
+  X,
+  Search,
+  LogOut,
+  PlusCircle,
+  LayoutDashboard,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function Navbar(){
+export default function Navbar({ userName = "Treinador" }) {
+  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const router = useRouter()
+  return (
+    <nav className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
-  return(
-
-    <nav className="bg-red-500 text-white p-4 flex justify-between">
-
-      <h1
-      onClick={()=>router.push("/dashboard")}
-      className="font-bold text-xl cursor-pointer"
-      >
-        Pokedex Admin
-      </h1>
-
-      <div className="space-x-4">
-
-        <button
-        onClick={()=>router.push("/pokemons/new")}
-        className="bg-white text-red-500 px-3 py-1 rounded"
+        {/* LOGO */}
+        <div
+          onClick={() => router.push("/dashboard")}
+          className="flex items-center gap-2 cursor-pointer"
         >
-          Novo Pokemon
-        </button>
+          <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white p-2 rounded-lg">
+            ⚪
+          </div>
 
+          <span className="font-bold text-lg text-gray-800">
+            Pokédex Admin
+          </span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-6 text-gray-600 font-medium">
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center gap-1 hover:text-black cursor-pointer"
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </button>
+
+          
+        </div>
+
+
+
+        <div className="hidden md:flex items-center gap-3">
+
+          
+          <button
+            onClick={() => router.push("/pokemons/new")}
+            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition cursor-pointer"
+          >
+            <PlusCircle size={18} />
+            Novo Pokemon
+          </button>
+
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black transition cursor-pointer"
+          >
+            <LogOut size={18} />
+          </button>
+        </div>
+
+        
         <button
-        onClick={logout}
-        className="bg-black px-3 py-1 rounded"
+          className="md:hidden cursor-pointer"
+          onClick={() => setMobileOpen(!mobileOpen)}
         >
-          Logout
+          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-
       </div>
 
-    </nav>
+     
+      {mobileOpen && (
+        <div className="md:hidden px-6 pb-4 flex flex-col gap-3">
 
-  )
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center gap-2 text-gray-700 cursor-pointer"
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </button>
+
+
+          <button
+            onClick={() => router.push("/pokemons/new")}
+            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+          >
+            <PlusCircle size={18} />
+            Novo Pokémon
+          </button>
+
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 text-black-500 cursor-pointer"
+          >
+            <LogOut size={18} />
+            Sair
+          </button>
+        </div>
+      )}
+    </nav>
+  );
 }

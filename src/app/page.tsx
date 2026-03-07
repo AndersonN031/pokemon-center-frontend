@@ -1,9 +1,20 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Hello, World!</h1>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.replace("/dashboard");
+    } else {
+      router.replace("/login");
+    }
+  }, [router]);
+
+  return null;
 }

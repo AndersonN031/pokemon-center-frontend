@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://pokemon-center-backend-ch02.onrender.com",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 api.interceptors.request.use((config) => {
