@@ -70,82 +70,103 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <div className="hidden md:flex items-center relative mb-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">📘 Pokedex</h1>
 
         <button
           onClick={() => router.push("/pokemons/new")}
-          className="absolute right-0 flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow cursor-pointer"
+          className="flex items-center justify-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow cursor-pointer w-full md:w-auto"
         >
           <PlusCircle size={18} />
           Novo Pokemon
         </button>
       </div>
 
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
-        {pokemons.map((pokemon) => (
-          <div
-            key={pokemon.id}
-            className="bg-white rounded-2xl shadow-md p-5 flex flex-col gap-4 hover:shadow-xl hover:-translate-y-1 transition"
+      {/* Aviso se não houver pokemons */}
+      {pokemons.length === 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-8 text-center shadow">
+          <p className="text-gray-600 mb-4">
+            Você ainda não adicionou nenhum Pokémon.
+          </p>
+
+          <button
+            onClick={() => router.push("/pokemons/new")}
+            className="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow cursor-pointer"
           >
-            {/* Header do card */}
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-800">
-                {pokemon.name}
-              </h2>
+            <PlusCircle size={18} />
+            Adicionar primeiro Pokémon
+          </button>
+        </div>
+      )}
 
-              <span className="text-xs font-semibold text-gray-500">
-                #{pokemon.pokedexNumber}
-              </span>
-            </div>
+      {/* Grid de pokemons */}
+      {pokemons.length > 0 && (
+        <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+          {pokemons.map((pokemon) => (
+            <div
+              key={pokemon.id}
+              className="bg-white rounded-2xl shadow-md p-5 flex flex-col gap-4 hover:shadow-xl hover:-translate-y-1 transition"
+            >
+              {/* Header do card */}
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold text-gray-800">
+                  {pokemon.name}
+                </h2>
 
-            {/* Tipo */}
-            <div className="flex gap-2 flex-wrap">
-              {pokemon.type.split("/").map((type: string) => (
-                <span
-                  key={type}
-                  className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                    typeColors[type] || "bg-gray-200 text-gray-800"
-                  }`}
-                >
-                  {type}
+                <span className="text-xs font-semibold text-gray-500">
+                  #{pokemon.pokedexNumber}
                 </span>
-              ))}
+              </div>
+
+              {/* Tipo */}
+              <div className="flex gap-2 flex-wrap">
+                {pokemon.type.split("/").map((type: string) => (
+                  <span
+                    key={type}
+                    className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                      typeColors[type] || "bg-gray-200 text-gray-800"
+                    }`}
+                  >
+                    {type}
+                  </span>
+                ))}
+              </div>
+
+              {/* Stats */}
+              <div className="text-sm text-gray-600 flex justify-between">
+                <p>
+                  <span className="font-semibold text-gray-800">Lvl:</span>{" "}
+                  {pokemon.level}
+                </p>
+
+                <p>
+                  <span className="font-semibold text-gray-800">HP:</span>{" "}
+                  {pokemon.hp}
+                </p>
+              </div>
+
+              {/* Botões */}
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => router.push(`/pokemons/edit/${pokemon.id}`)}
+                  className="flex-1 bg-yellow-400 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-yellow-300 transition"
+                >
+                  Editar
+                </button>
+
+                <button
+                  onClick={() => handleDelete(pokemon.id!)}
+                  disabled={deletingId === pokemon.id}
+                  className="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-red-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deletingId === pokemon.id ? "Excluindo..." : "Excluir"}
+                </button>
+              </div>
             </div>
-
-            {/* Stats */}
-            <div className="text-sm text-gray-600 flex justify-between">
-              <p>
-                <span className="font-semibold text-gray-800">Lvl:</span>{" "}
-                {pokemon.level}
-              </p>
-
-              <p>
-                <span className="font-semibold text-gray-800">HP:</span>{" "}
-                {pokemon.hp}
-              </p>
-            </div>
-
-            {/* Botões */}
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={() => router.push(`/pokemons/edit/${pokemon.id}`)}
-                className="flex-1 bg-yellow-400 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-yellow-300 transition"
-              >
-                Editar
-              </button>
-
-              <button
-                onClick={() => handleDelete(pokemon.id!)}
-                disabled={deletingId === pokemon.id}
-                className="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-red-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {deletingId === pokemon.id ? "Excluindo..." : "Excluir"}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
