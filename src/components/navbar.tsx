@@ -9,18 +9,21 @@ import {
   PlusCircle,
   LayoutDashboard,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Navbar({ userName = "Treinador" }) {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const pathname = usePathname();
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
+
   return (
     <nav className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-
-        {/* LOGO */}
         <div
           onClick={() => router.push("/dashboard")}
           className="flex items-center gap-2 cursor-pointer"
@@ -29,45 +32,28 @@ export default function Navbar({ userName = "Treinador" }) {
             ⚪
           </div>
 
-          <span className="font-bold text-lg text-gray-800">
-            Pokédex Admin
-          </span>
+          <span className="font-bold text-lg text-gray-800">Pokédex Admin</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-6 text-gray-600 font-medium">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-1 hover:text-black cursor-pointer"
-          >
-            <LayoutDashboard size={18} />
-            Dashboard
-          </button>
-
-          
-        </div>
-
-
+        <div className="hidden md:flex items-center gap-6 text-gray-600 font-medium"></div>
 
         <div className="hidden md:flex items-center gap-3">
-
-          
           <button
-            onClick={() => router.push("/pokemons/new")}
-            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition cursor-pointer"
-          >
-            <PlusCircle size={18} />
-            Novo Pokemon
-          </button>
-
-          <button
-            onClick={logout}
+            onClick={() => router.push("/dashboard")}
             className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black transition cursor-pointer"
           >
+            <LayoutDashboard size={18} />
+            Meus Pokemons
+          </button>
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg border border-black hover:bg-black hover:text-white transition cursor-pointer"
+          >
             <LogOut size={18} />
+            Sair
           </button>
         </div>
 
-        
         <button
           className="md:hidden cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -76,30 +62,19 @@ export default function Navbar({ userName = "Treinador" }) {
         </button>
       </div>
 
-     
       {mobileOpen && (
         <div className="md:hidden px-6 pb-4 flex flex-col gap-3">
-
           <button
             onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2 text-gray-700 cursor-pointer"
+            className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black transition cursor-pointer flex items-center gap-2 text-gray-700 cursor-pointer w-fit"
           >
             <LayoutDashboard size={18} />
-            Dashboard
-          </button>
-
-
-          <button
-            onClick={() => router.push("/pokemons/new")}
-            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer"
-          >
-            <PlusCircle size={18} />
-            Novo Pokémon
+            Meus Pokemons
           </button>
 
           <button
             onClick={logout}
-            className="flex items-center gap-2 text-black-500 cursor-pointer"
+            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg border border-black hover:bg-black hover:text-white transition cursor-pointer w-fit"
           >
             <LogOut size={18} />
             Sair

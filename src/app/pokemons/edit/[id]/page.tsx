@@ -20,6 +20,7 @@ export default function EditPokemon() {
   const params = useParams();
 
   const [form, setForm] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     loadPokemon();
@@ -40,19 +41,27 @@ export default function EditPokemon() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await updatePokemon(params.id as string, {
-      name: form.name,
-      type: form.type,
-      level: Number(form.level),
-      hp: Number(form.hp),
-      pokedexNumber: Number(form.pokedexNumber),
-    });
-    router.push("/dashboard");
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      await updatePokemon(params.id as string, {
+        name: form.name,
+        type: form.type,
+        level: Number(form.level),
+        hp: Number(form.hp),
+        pokedexNumber: Number(form.pokedexNumber),
+      });
+
+      router.push("/dashboard");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center mt-10">
-
       <div
         onClick={() => router.back()}
         className="flex items-center gap-2 text-gray-500 hover:text-gray-800 cursor-pointer mb-4"
@@ -145,10 +154,11 @@ export default function EditPokemon() {
         <div className="flex gap-3 mt-4 w-full">
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 transition text-white py-2 rounded-lg text-sm font-medium cursor-pointer"
+            disabled={isLoading}
+            className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 transition text-white py-2 rounded-lg text-sm font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save size={16} />
-            Atualizar
+            {isLoading ? "Atualizando..." : "Atualizar"}
           </button>
         </div>
       </form>

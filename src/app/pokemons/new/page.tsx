@@ -3,10 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPokemon } from "@/services/pokemon";
-import { ArrowLeft, Flame, Hash, Heart, PlusCircle, Sword, X, Zap } from "lucide-react";
+import {
+  ArrowLeft,
+  Flame,
+  Hash,
+  Heart,
+  PlusCircle,
+  Sword,
+  X,
+  Zap,
+} from "lucide-react";
 
 export default function NewPokemon() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -26,14 +36,22 @@ export default function NewPokemon() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await createPokemon({
-      ...form,
-      level: Number(form.level),
-      hp: Number(form.hp),
-      pokedexNumber: Number(form.pokedexNumber),
-    });
+    if (isLoading) return; // impede múltiplos submits
 
-    router.push("/dashboard");
+    try {
+      setIsLoading(true);
+
+      await createPokemon({
+        ...form,
+        level: Number(form.level),
+        hp: Number(form.hp),
+        pokedexNumber: Number(form.pokedexNumber),
+      });
+
+      router.push("/dashboard");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,6 +77,7 @@ export default function NewPokemon() {
 
           <input
             name="name"
+            required
             placeholder="Nome"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={handleChange}
@@ -74,6 +93,7 @@ export default function NewPokemon() {
           <input
             name="type"
             placeholder="Tipo"
+            required
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-400"
             onChange={handleChange}
           />
@@ -89,6 +109,7 @@ export default function NewPokemon() {
             name="level"
             min={0}
             type="number"
+            required
             placeholder="Level"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onChange={handleChange}
@@ -105,6 +126,7 @@ export default function NewPokemon() {
             name="hp"
             min={0}
             type="number"
+            required
             placeholder="HP"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-400"
             onChange={handleChange}
@@ -121,6 +143,7 @@ export default function NewPokemon() {
             name="pokedexNumber"
             min={0}
             type="number"
+            required
             placeholder="Número da Pokédex"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-purple-400"
             onChange={handleChange}
@@ -128,9 +151,13 @@ export default function NewPokemon() {
         </div>
 
         <div className="flex gap-3 mt-4 w-full">
-          <button className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 transition text-white py-2 rounded-lg text-sm font-medium cursor-pointer">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 transition text-white py-2 rounded-lg text-sm font-medium cursor-pointer rounded disabled:opacity-50"
+          >
             <PlusCircle size={18} />
-            Criar Pokémon
+            {isLoading ? "Criando..." : "Criar pokémon"}
           </button>
         </div>
       </form>
