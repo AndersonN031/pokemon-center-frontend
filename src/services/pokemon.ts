@@ -9,6 +9,11 @@ export interface Pokemon {
   pokedexNumber: number;
 }
 
+export const getListGlobalPokemons = async (page = 1) => {
+  const response = await api.get(`/pokemon/all?page=${page}&limit=50`);
+  return response.data;
+};
+
 export const getPokemons = async () => {
   const response = await api.get("/pokemon");
   return response.data;
