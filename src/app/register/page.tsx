@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/services/auth";
-import { Mail, User, Lock, Loader2, Check, X } from "lucide-react";
+import { Mail, User, Lock, Loader2, Check, X, Eye, EyeOff } from "lucide-react";
 import { strongPasswordRegex } from "@/utils/password";
 import toast from "react-hot-toast";
 
@@ -14,6 +14,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     email: "",
@@ -115,13 +116,22 @@ export default function RegisterPage() {
           <Lock size={18} className="absolute left-3 top-4 text-gray-400" />
 
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Senha"
             maxLength={128}
             title="A senha pode ter no máximo 128 caracteres"
-            className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="pl-10 pr-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          {/* Olhinho */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
 
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -130,14 +140,18 @@ export default function RegisterPage() {
           {password && (
             <div className="text-sm mt-2 space-y-1">
               <p
-                className={`flex items-center gap-2 ${passwordChecks.length ? "text-green-600" : "text-gray-400"}`}
+                className={`flex items-center gap-2 ${
+                  passwordChecks.length ? "text-green-600" : "text-gray-400"
+                }`}
               >
                 {passwordChecks.length ? <Check size={14} /> : <X size={14} />}
                 Pelo menos 6 caracteres
               </p>
 
               <p
-                className={`flex items-center gap-2 ${passwordChecks.lowercase ? "text-green-600" : "text-gray-400"}`}
+                className={`flex items-center gap-2 ${
+                  passwordChecks.lowercase ? "text-green-600" : "text-gray-400"
+                }`}
               >
                 {passwordChecks.lowercase ? (
                   <Check size={14} />
@@ -148,7 +162,9 @@ export default function RegisterPage() {
               </p>
 
               <p
-                className={`flex items-center gap-2 ${passwordChecks.uppercase ? "text-green-600" : "text-gray-400"}`}
+                className={`flex items-center gap-2 ${
+                  passwordChecks.uppercase ? "text-green-600" : "text-gray-400"
+                }`}
               >
                 {passwordChecks.uppercase ? (
                   <Check size={14} />
@@ -159,14 +175,18 @@ export default function RegisterPage() {
               </p>
 
               <p
-                className={`flex items-center gap-2 ${passwordChecks.number ? "text-green-600" : "text-gray-400"}`}
+                className={`flex items-center gap-2 ${
+                  passwordChecks.number ? "text-green-600" : "text-gray-400"
+                }`}
               >
                 {passwordChecks.number ? <Check size={14} /> : <X size={14} />}1
                 número
               </p>
 
               <p
-                className={`flex items-center gap-2 ${passwordChecks.symbol ? "text-green-600" : "text-gray-400"}`}
+                className={`flex items-center gap-2 ${
+                  passwordChecks.symbol ? "text-green-600" : "text-gray-400"
+                }`}
               >
                 {passwordChecks.symbol ? <Check size={14} /> : <X size={14} />}1
                 símbolo

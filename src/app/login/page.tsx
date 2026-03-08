@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/auth";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, EyeOff, Eye } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -101,15 +102,24 @@ export default function LoginPage() {
               <Lock size={18} className="absolute left-3 top-4 text-gray-400" />
 
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Senha"
-                className={`pl-10 border p-3 rounded-lg w-full focus:outline-none focus:ring-2 ${
+                className={`pl-10 pr-10 border p-3 rounded-lg w-full focus:outline-none focus:ring-2 ${
                   errors.password || errors.credentials
                     ? "border-red-400 focus:ring-red-400"
                     : "border-[#ccc] focus:ring-red-400"
                 }`}
                 onChange={(e) => setPassword(e.target.value)}
               />
+
+              {/* Olhinho */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-4 text-gray-400 hover:text-gray-600 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
 
             {(errors.password || errors.credentials) && (
