@@ -76,13 +76,15 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">📘 Pokedex</h1>
 
-        <button
-          onClick={() => router.push("/pokemons/new")}
-          className="flex items-center justify-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow cursor-pointer w-full md:w-auto"
-        >
-          <PlusCircle size={18} />
-          Novo Pokemon
-        </button>
+        {pokemons.length > 0 && (
+          <button
+            onClick={() => router.push("/pokemons/new")}
+            className="flex items-center justify-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition shadow cursor-pointer w-full md:w-auto"
+          >
+            <PlusCircle size={18} />
+            Novo Pokemon
+          </button>
+        )}
       </div>
 
       {/* Aviso se não houver pokemons */}
@@ -138,9 +140,7 @@ export default function Dashboard() {
               {/* Stats */}
               <div className="text-sm text-gray-600 flex justify-between">
                 <p>
-                  <span className="font-semibold text-gray-800">
-                    Lvl:
-                  </span>{" "}
+                  <span className="font-semibold text-gray-800">Lvl:</span>{" "}
                   {pokemon.level}
                 </p>
 
