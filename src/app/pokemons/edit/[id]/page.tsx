@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { updatePokemon } from "@/services/pokemon";
 import { api } from "@/services/api";
 import { ArrowLeft, Flame, Hash, Heart, Save, Sword, Zap } from "lucide-react";
+import toast, { ToastBar, ToastIcon } from "react-hot-toast";
 
 export default function EditPokemon() {
   const router = useRouter();
@@ -76,6 +77,7 @@ export default function EditPokemon() {
         pokedexNumber: Number(form.pokedexNumber),
       });
 
+      toast.success("Dados do pokémon atualizado!");
       router.push("/dashboard");
     } finally {
       setIsLoading(false);
@@ -145,21 +147,28 @@ export default function EditPokemon() {
 
         {/* Tipo 2 */}
         {type1 && (
-          <select
-            value={type2}
-            onChange={(e) => setType2(e.target.value)}
-            className="border border-gray-200 p-3 rounded-lg w-full bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition"
-          >
-            <option value="">Segundo tipo (opcional)</option>
+          <div className="relative">
+            <Flame
+              size={18}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
 
-            {pokemonTypes
-              .filter((t) => t !== type1)
-              .map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-          </select>
+            <select
+              value={type2}
+              onChange={(e) => setType2(e.target.value)}
+              className="pl-10 border border-gray-200 p-3 rounded-lg w-full bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+            >
+              <option value="">Segundo tipo (opcional)</option>
+
+              {pokemonTypes
+                .filter((t) => t !== type1)
+                .map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+            </select>
+          </div>
         )}
 
         {/* Level */}

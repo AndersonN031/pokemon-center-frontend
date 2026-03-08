@@ -12,6 +12,7 @@ import {
   Sword,
   Zap,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function NewPokemon() {
   const router = useRouter();
@@ -73,6 +74,7 @@ export default function NewPokemon() {
         pokedexNumber: Number(form.pokedexNumber),
       });
 
+      toast.success("Pokémon criado com sucesso!")
       router.push("/dashboard");
     } finally {
       setIsLoading(false);
@@ -107,6 +109,8 @@ export default function NewPokemon() {
           <input
             name="name"
             required
+            pattern="[A-Za-zÀ-ÿ\s]+"
+            title="Apenas letras são permitidas"
             placeholder="Nome"
             className="pl-10 border border-gray-200 p-3 rounded-lg w-full bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             onChange={handleChange}
@@ -206,6 +210,7 @@ export default function NewPokemon() {
           <input
             name="pokedexNumber"
             min={1}
+            
             max={9999}
             type="number"
             required

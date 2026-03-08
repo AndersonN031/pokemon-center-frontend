@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getPokemons, deletePokemon, Pokemon } from "@/services/pokemon";
 import { isAuthenticated } from "@/hooks/useAuth";
 import { PlusCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -58,6 +59,7 @@ export default function Dashboard() {
     try {
       setDeletingId(id);
       await deletePokemon(id);
+      toast.success("Pokémon removido com sucesso!")
       await loadPokemons();
     } finally {
       setDeletingId(null);

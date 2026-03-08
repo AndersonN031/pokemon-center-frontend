@@ -58,10 +58,12 @@ export default function RegisterPage() {
 
       await registerUser({ name, email, password });
 
-      toast.success("Treinador foi registrado com sucesso!")
+      toast.success("Treinador foi registrado com sucesso!");
       router.push("/login");
-    } catch {
-      toast.error("Erro ao tentar registrar.")
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        toast.error("Email já cadastrado");
+      }
     } finally {
       setIsLoading(false);
     }
