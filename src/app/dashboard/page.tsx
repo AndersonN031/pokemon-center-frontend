@@ -59,7 +59,7 @@ export default function Dashboard() {
     try {
       setDeletingId(id);
       await deletePokemon(id);
-      toast.success("Pokémon removido com sucesso!")
+      toast.success("Pokémon removido com sucesso!");
       await loadPokemons();
     } finally {
       setDeletingId(null);
@@ -138,7 +138,9 @@ export default function Dashboard() {
               {/* Stats */}
               <div className="text-sm text-gray-600 flex justify-between">
                 <p>
-                  <span className="font-semibold text-gray-800">Lvl:</span>{" "}
+                  <span className="font-semibold text-gray-800">
+                    Lvl:
+                  </span>{" "}
                   {pokemon.level}
                 </p>
 

@@ -138,14 +138,16 @@ export default function GlobalPokemonsPage() {
                       {pokemon.hp}
                     </td>
 
-                    <td className="p-4 flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center text-xs font-bold text-white shadow">
-                        {pokemon.user?.name?.charAt(0)}
-                      </div>
+                    <td className="p-4 max-w-[220px]">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center text-xs font-bold text-white shadow">
+                          {pokemon.user?.name?.charAt(0)}
+                        </div>
 
-                      <span className="text-gray-700">
-                        {pokemon.user?.name || "Sem dono"}
-                      </span>
+                        <span className="text-gray-700 truncate max-w-[160px] block">
+                          {pokemon.user?.name || "Sem dono"}
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ))

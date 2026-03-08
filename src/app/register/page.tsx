@@ -83,6 +83,8 @@ export default function RegisterPage() {
 
             <input
               placeholder="Nome"
+              maxLength={100}
+              title="O nome pode ter no máximo 100 caracteres"
               className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-green-400"
               onChange={(e) => setName(e.target.value)}
             />
@@ -98,6 +100,8 @@ export default function RegisterPage() {
 
           <input
             placeholder="Email"
+            maxLength={254}
+            title="O email pode ter no máximo 254 caracteres"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -113,6 +117,8 @@ export default function RegisterPage() {
           <input
             type="password"
             placeholder="Senha"
+            maxLength={128}
+            title="A senha pode ter no máximo 128 caracteres"
             className="pl-10 border border-[#ccc] p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -114,6 +114,7 @@ export default function EditPokemon() {
             placeholder="Nome do Pokémon"
             pattern="[A-Za-zÀ-ÿ\s]+"
             title="Apenas letras são permitidas"
+            maxLength={12}
             value={form.name || ""}
             className="pl-10 border border-gray-200 p-3 rounded-lg w-full bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             onChange={handleChange}
