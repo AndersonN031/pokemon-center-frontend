@@ -14,9 +14,10 @@ export default function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
+    const publicRoutes = ["/login", "/register"];
     const auth = isAuthenticated();
 
-    if (!auth) {
+    if (!auth && !publicRoutes.includes(pathname)) {
       router.push("/login");
     }
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/auth";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -118,12 +119,9 @@ export default function LoginPage() {
 
         <p className="text-center text-sm">
           Treinador novo?
-          <span
-            onClick={() => router.push("/register")}
-            className="text-blue-500 cursor-pointer ml-1"
-          >
+          <Link href="/register" className="text-blue-500 ml-1 hover:underline">
             Registrar
-          </span>
+          </Link>
         </p>
       </form>
     </div>
