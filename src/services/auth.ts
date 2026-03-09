@@ -21,7 +21,8 @@ export const loginUser = async (data: LoginData) => {
 
   const token = response.data.access_token;
 
-  localStorage.setItem("token", token);
+  // localStorage.setItem("token", token);
+  document.cookie = `token=${token}; path=/; max-age=86400; samesite=lax`;
 
   return token;
 };

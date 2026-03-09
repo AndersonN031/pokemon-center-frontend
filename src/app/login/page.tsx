@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/auth";
 import { Mail, Lock, Loader2, EyeOff, Eye } from "lucide-react";
@@ -20,6 +20,7 @@ export default function LoginPage() {
     password: "",
     credentials: "",
   });
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

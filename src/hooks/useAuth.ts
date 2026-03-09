@@ -6,6 +6,7 @@ export function isAuthenticated() {
 }
 
 export function logout() {
-  localStorage.removeItem("token");
+  // localStorage.removeItem("token");
+  document.cookie = "token=; path=/; max-age=0";
   window.location.href = "/login";
 }

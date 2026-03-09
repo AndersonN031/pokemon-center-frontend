@@ -10,7 +10,7 @@ export interface Pokemon {
 }
 
 export const getListGlobalPokemons = async (page = 1) => {
-  const response = await api.get(`/pokemon/all?page=${page}&limit=50`);
+  const response = await api.get(`/pokemon/all?page=${page}&limit=20`);
   return response.data;
 };
 
