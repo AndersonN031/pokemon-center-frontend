@@ -21,7 +21,6 @@ export default function LoginPage() {
     credentials: "",
   });
 
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -47,7 +46,8 @@ export default function LoginPage() {
 
       toast.success("Login realizado com sucesso!");
       router.push("/dashboard");
-    } catch {
+    } catch (err) {
+      console.error(err);
       setErrors({
         email: "",
         password: "",

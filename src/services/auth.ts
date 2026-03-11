@@ -13,7 +13,7 @@ export interface LoginData {
 
 export const registerUser = async (data: RegisterData) => {
   const response = await api.post("/auth/register", data);
-  return response.data;
+  return response.data.acess;
 };
 
 export const loginUser = async (data: LoginData) => {
@@ -22,7 +22,7 @@ export const loginUser = async (data: LoginData) => {
   const token = response.data.access_token;
 
   // localStorage.setItem("token", token);
-  document.cookie = `token=${token}; path=/; max-age=86400; samesite=lax`;
+  document.cookie = `token=${token}; path=/; max-age=86400; samesite=Strict`;
 
   return token;
 };

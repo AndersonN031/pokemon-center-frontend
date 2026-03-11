@@ -10,29 +10,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const publicRoutes = ["/login", "/register"];
-    const auth = isAuthenticated();
-
-    if (!auth && !publicRoutes.includes(pathname)) {
-      router.push("/login");
-    }
-
-    setAuthenticated(auth);
-    setLoading(false);
-  }, [pathname]);
 
   if (pathname === "/login" || pathname === "/register") {
     return null;
   }
-
-  if (loading || !authenticated) {
-    return null;
-  }
-
   return (
     <nav className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">

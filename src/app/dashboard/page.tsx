@@ -36,10 +36,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!isAuthenticated()) {
-        router.push("/login");
-        return;
-      }
+      // if (!isAuthenticated()) {
+      //   router.push("/login");
+      //   return;
+      // }
 
       await loadPokemons();
       setLoading(false);
@@ -49,8 +49,14 @@ export default function Dashboard() {
   }, [router]);
 
   const loadPokemons = async () => {
-    const data = await getPokemons();
-    setPokemons(data);
+    try {
+      const data = await getPokemons();
+      setPokemons(data || []);
+    } catch (error) {
+      console.error("Erro ao carregar pokemons:", error);
+      toast.error("Erro ao carregar pokémons");
+      setPokemons([]);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -72,7 +78,7 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      {/* Header */}
+      Header
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">📘 Pokedex</h1>
 
@@ -86,7 +92,6 @@ export default function Dashboard() {
           </button>
         )}
       </div>
-
       {/* Aviso se não houver pokemons */}
       {pokemons.length === 0 && (
         <div className="bg-white border border-gray-200 rounded-xl p-8 text-center shadow">
@@ -103,7 +108,6 @@ export default function Dashboard() {
           </button>
         </div>
       )}
-
       {/* Grid de pokemons */}
       {pokemons.length > 0 && (
         <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
@@ -125,7 +129,7 @@ export default function Dashboard() {
 
               {/* Tipo */}
               <div className="flex gap-2 flex-wrap">
-                {pokemon.type.split("/").map((type: string) => (
+                {pokemon.type?.split("/").map((type: string) => (
                   <span
                     key={type}
                     className={`px-3 py-1 text-xs font-semibold rounded-full ${
